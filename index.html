@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>My Hub</title>
 
   <style>
@@ -12,62 +13,274 @@
       padding: 0;
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #111;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 30px 20px;
+    :root {
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #111827;
+      --accent-light: #f3f4f6;
     }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(0,0,0,0.04), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 50px 35px;
+    }
+
+    /* =========================
+       CONTAINER
+       ========================= */
 
     .container {
       width: 100%;
-      max-width: 700px;
+      max-width: 1500px;
+      margin: 0 auto;
     }
 
-    h1 {
-      font-size: 32px;
+    /* =========================
+       HEADER
+       ========================= */
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 35px;
+      gap: 20px;
+    }
+
+    .header-left h1 {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
       margin-bottom: 8px;
     }
 
     .subtitle {
-      color: #666;
-      margin-bottom: 30px;
+      color: var(--muted);
+      font-size: 16px;
     }
+
+    .project-count {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      color: var(--muted);
+      white-space: nowrap;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    }
+
+    .project-count strong {
+      color: var(--text);
+    }
+
+    /* =========================
+       GRID
+       ========================= */
 
     .apps {
       display: grid;
-      gap: 12px;
+
+      /* 4 ELEMENTI PER RIGA */
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+
+      gap: 18px;
     }
 
+    /* =========================
+       CARD
+       ========================= */
+
     .app {
-      display: block;
-      padding: 18px 20px;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 12px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      min-height: 170px;
+
+      padding: 22px;
+
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
       text-decoration: none;
-      color: #111;
-      transition: 0.2s ease;
+      color: var(--text);
+
+      overflow: hidden;
+
+      box-shadow:
+        0 4px 15px rgba(0,0,0,0.035);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .app::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: #111827;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
     }
 
     .app:hover {
-      transform: translateY(-2px);
-      border-color: #999;
+      transform: translateY(-5px);
+      border-color: #d1d5db;
+
+      box-shadow:
+        0 15px 35px rgba(0,0,0,0.09);
     }
+
+    .app:hover::before {
+      transform: scaleX(1);
+    }
+
+    /* =========================
+       CARD ICON
+       ========================= */
+
+    .app-icon {
+      width: 42px;
+      height: 42px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: var(--accent-light);
+      border-radius: 12px;
+
+      font-size: 19px;
+      font-weight: 700;
+
+      margin-bottom: 22px;
+    }
+
+    /* =========================
+       CARD TEXT
+       ========================= */
 
     .app-name {
       font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 5px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 8px;
     }
 
     .app-description {
-      font-size: 14px;
-      color: #777;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    /* =========================
+       OPEN LINK
+       ========================= */
+
+    .app-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-top: 20px;
+
+      font-size: 12px;
+      font-weight: 600;
+      color: #9ca3af;
+    }
+
+    .arrow {
+      font-size: 18px;
+      transition: transform 0.2s ease;
+    }
+
+    .app:hover .arrow {
+      transform: translateX(4px);
+      color: var(--text);
+    }
+
+    /* =========================
+       TABLET
+       ========================= */
+
+    @media (max-width: 1100px) {
+      .apps {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width: 750px) {
+
+      body {
+        padding: 30px 18px;
+      }
+
+      .header {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 25px;
+      }
+
+      .header-left h1 {
+        font-size: 34px;
+      }
+
+      .apps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .app {
+        min-height: 160px;
+        padding: 18px;
+        border-radius: 15px;
+      }
+
+      .app-icon {
+        width: 38px;
+        height: 38px;
+        margin-bottom: 16px;
+      }
+
+      .app-name {
+        font-size: 16px;
+      }
+
+      .app-description {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 450px) {
+
+      .apps {
+        grid-template-columns: 1fr;
+      }
+
+      .app {
+        min-height: 145px;
+      }
     }
   </style>
 </head>
@@ -75,136 +288,185 @@
 <body>
 
   <main class="container">
-    <h1>My Hub</h1>
-    <p class="subtitle">I miei progetti e applicazioni web</p>
+
+    <header class="header">
+
+      <div class="header-left">
+        <h1>My Hub</h1>
+
+        <p class="subtitle">
+          I miei progetti e applicazioni web
+        </p>
+      </div>
+
+      <div class="project-count">
+        <strong id="projectCount">0</strong> progetti
+      </div>
+
+    </header>
+
 
     <div id="apps" class="apps"></div>
+
   </main>
 
+
   <script>
+
     /*
-      =====================================================
-      INSERISCI QUI LE TUE APPLICAZIONI
-      =====================================================
+    =====================================================
+    LE TUE APPLICAZIONI
+    =====================================================
 
-      Per aggiungere una nuova applicazione copia questo
-      formato e modifica nome, descrizione e link.
+    Per aggiungere un progetto basta aggiungere:
 
-      Esempio:
+    {
+      name: "Nome Applicazione",
+      description: "Descrizione",
+      url: "https://tuolink.com"
+    }
 
-      {
-        name: "Nome Applicazione",
-        description: "Breve descrizione",
-        url: "https://tuolink.com"
-      }
+    NON devi modificare altro.
+    =====================================================
     */
 
+
     const apps = [
+
       {
         name: "MrSoccerGamification",
         description: "Gestione squadra di calcio e gamificazione allenamenti",
         url: "https://matteopoggesi08.github.io/mrsoccergamification/#/"
-      }
+      },
 
-      
-
-      ,{
+      {
         name: "Player Lab Ultimate",
         description: "Monitoraggio della propria carriera calcistica",
         url: "https://emmepi97.github.io/playerlab-ultimate/"
-      }
+      },
 
-    
-     , {
+      {
         name: "Football Career",
-        description: "NON FUNZIONA PIU DA CAPIRE PERCHE E COSA FACESSE",
+        description: "NON FUNZIONA PIÙ — DA CAPIRE PERCHÉ E COSA FACESSE",
         url: "https://emmepi97.github.io/footballercareer/"
-      }
+      },
 
-    
-      ,{
+      {
         name: "Coach Soccer",
         description: "Monitoraggio carichi di lavoro e presenze calcio",
         url: "https://emmepi97.github.io/coachsoccer/"
-      }
+      },
 
-    
-     , {
-        name: "Player Lab Ultimate ",
-        description: "Analizza la tua carriera calcistica con metriche avanzate, pattern reali calcolati sui tuoi dati, correlazioni statistiche, storico carriera e molto altro.",
-        url: "https://emmepi97.github.io/playerlab-ultimate/"
-      }
+      {
+        name: "Coach Lab",
+        description: "Monitoraggio risultati, presenze, scouting, analytics e rosa",
+        url: "https://emmepi97.github.io/coach-lab/"
+      },
 
-      
-      ,{
-        name: "Coach Lab ",
-        description: "Monitoraggio risultati, presenze, scouting, analytics, rosa",
-        url: " https://emmepi97.github.io/coach-lab/"
-      }
-
-      
-     , {
+      {
         name: "Corto Muso",
-        description: "Gioco per pc",
+        description: "Gioco per PC",
         url: "https://emmepi97.github.io/cortomuso/"
-      }
+      },
 
-      
-     ,{
+      {
         name: "Happlytics",
         description: "DA CAPIRE LINK",
         url: "https://emmepi97.github.io/cortomuso/"
-      }
+      },
 
-      
-      ,{
+      {
         name: "100 Grid Challenge",
-        description: "Gioco per pc",
+        description: "Gioco per PC",
         url: "https://emmepi97.github.io/100gridchallenge/"
-      }
+      },
 
-      
-      ,{
+      {
         name: "Wedding Coding",
-        description: "Sito di wdding coding",
-        url: "  https://www.weddingcoding.it/"
-      }
+        description: "Sito di Wedding Coding",
+        url: "https://www.weddingcoding.it/"
+      },
 
-      
-      ,{
+      {
         name: "Prio Week",
         description: "App per gestire attività e priorità",
-        url: "   https://app-prioro.vercel.app/"
+        url: "https://app-prioro.vercel.app/"
       }
 
-
-     
-    
-
-      
-    
-    
-    
-    
     ];
+
+
+    /*
+    =====================================================
+    GENERAZIONE AUTOMATICA DELLE CARD
+    =====================================================
+    */
 
     const appsContainer = document.getElementById("apps");
 
-    apps.forEach(app => {
+    const projectCount = document.getElementById("projectCount");
+
+    projectCount.textContent = apps.length;
+
+
+    apps.forEach((app, index) => {
+
       const link = document.createElement("a");
 
       link.className = "app";
-      link.href = app.url;
+
+      link.href = app.url.trim();
+
       link.target = "_blank";
+
       link.rel = "noopener noreferrer";
 
+
+      /*
+      Genera una piccola icona numerica
+      automaticamente.
+      */
+
+      const number = String(index + 1).padStart(2, "0");
+
+
       link.innerHTML = `
-        <div class="app-name">${app.name}</div>
-        <div class="app-description">${app.description}</div>
+
+        <div>
+
+          <div class="app-icon">
+            ${number}
+          </div>
+
+          <div class="app-name">
+            ${app.name}
+          </div>
+
+          <div class="app-description">
+            ${app.description}
+          </div>
+
+        </div>
+
+        <div class="app-footer">
+
+          <span>
+            APRI PROGETTO
+          </span>
+
+          <span class="arrow">
+            →
+          </span>
+
+        </div>
+
       `;
 
+
       appsContainer.appendChild(link);
+
     });
+
   </script>
 
 </body>
